@@ -4,7 +4,17 @@ This script enables downloading any sheet music from 8Notes as a PDF without the
 
 8Notes is an amazing community-supported repository of sheet music from various genres. Without a subscription, the user is limited to printing each page of the music one at a time by manually clicking through...and ain't nobody got time for that.
 
-It is available as a JS bookmark or (eventually) a Chrome plugin.
+It is available as a JS bookmarklet or (eventually) a Chrome plugin.
+
+## Usage
+
+To use this script from your browser's bookmarks:
+
+1. Copy the contents of [`bookmarklet.js`](bookmarklet.js) to your clipboard
+2. Create a new bookmark in your browser of choice
+3. Paste the bookmark code into the URL field of the new bookmark and name it something relevant (I suggest 8Notes Downloader, but I'm not your supervisor)
+4. Navigate to any page of sheet music in the 8Notes catalogue and click on your bookmark
+5. Within a few seconds you should be prompted to download the PDF of your song
 
 ## Tech
 
