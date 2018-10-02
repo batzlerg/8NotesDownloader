@@ -60,11 +60,49 @@
     if (rightButton && rightButton.style.visibility === 'hidden') { // buttons aren't displayed on sheet music with single pages
       return true;
     }
-    return rightButton.style.background === "rgb(192, 192, 192)"; // greyed out
+    return rightButton.style.background.indexOf("rgb(192, 192, 192)"); // greyed out
+  }
+
+  // display loading indicator
+  function setLoading() {
+    let loadingDiv = document.createElement('div');
+    Object.assign(loadingDiv.style, {
+      width: '100%',
+      border: '1px solid black',
+      position: 'absolute',
+      padding: '5em 0',
+      top: '0',
+      left: '0',
+      backgroundColor: 'mintcream',
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex',
+      flexDirection: 'column',
+      zIndex: 999999,
+    });
+    loadingDiv.textContent = "generating your PDF, please wait...";
+    loadingDiv.className = "loadingDiv";
+    document.body.appendChild(loadingDiv);
+  }
+
+  // remove loading indicator, notify of success, prompt for download
+  function completeLoading({ formattedTitle, getFile }) {
+    const loadingDiv = document.querySelector('.loadingDiv');
+    const downloadLink = document.createElement('a');
+    downloadLink.onclick = getFile;
+    downloadLink.target = '_blank';
+    downloadLink.textContent = 'download PDF';
+    downloadLink.style.cursor = 'pointer';
+    loadingDiv.innerHTML = `thanks for waiting!<div>your download of <i>${formattedTitle}</i> is beginning now.</div>to manually download the file, click here: `;
+    loadingDiv.appendChild(downloadLink);
+    setTimeout(() => {
+      loadingDiv.parentNode.removeChild(loadingDiv);
+    }, 5000);
   }
 
   // tie it all together. let's get to pdf-ing!
   async function main() {
+    setLoading();
     const pdfDoc = await initPdf();
 
     async function addCurrentScoreImgToPdf() {
@@ -87,6 +125,10 @@
     await addCurrentScoreImgToPdf();
     const rawTitle = document.querySelector('h1').textContent;
     const formattedTitle = rawTitle.substr(0, rawTitle.indexOf('sheet music')).trim();
+    completeLoading({
+      getFile: () => pdfDoc.output('save', `${formattedTitle}.pdf`),
+      formattedTitle,
+    });
     pdfDoc.output('save', `${formattedTitle}.pdf`);
   }
 
