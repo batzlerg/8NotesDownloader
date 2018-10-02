@@ -1,0 +1,17 @@
+# 8Notes PDF Downloader
+
+This script enables downloading any sheet music from 8Notes as a PDF without the need for a paid subscription.
+
+8Notes is an amazing community-supported repository of sheet music from various genres. Without a subscription, the user is limited to printing each page of the music one at a time by manually clicking through...and ain't nobody got time for that.
+
+It is available as a JS bookmark or (eventually) a Chrome plugin.
+
+## Tech
+
+The images are scraped manually from the sheet music page and converted into [dataURLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) by first drawing them to a <canvas> element, then [jsPDF](https://github.com/MrRio/jsPDF) is used under the hood to generate the document.
+
+## Disclaimer
+
+These PDFs aren't *quite* as good as what you'd get from a paid subscription. This script compiles a PDF from the freely available images whereas the subscription PDF is an editable document, so I encourage everybody to support the service by subscribing if possible!
+
+Pull requests and flattery are both welcome.
