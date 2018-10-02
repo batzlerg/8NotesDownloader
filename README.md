@@ -24,4 +24,6 @@ The images are scraped manually from the sheet music page and converted into [da
 
 These PDFs aren't *quite* as good as what you'd get from a paid subscription. This script compiles a PDF from the freely available images whereas the subscription PDF is an editable document, so I encourage everybody to support the service by subscribing if possible!
 
-Pull requests and flattery are both welcome.
+I've tested this out on the latest versions of Chrome, Firefox, and Safari as of October 2018. If something isn't working for you or you'd like to test this out on another browser, please get in touch or submit a PR.
+
+Or if it *is* working for you, I'd also be happy to hear about that - I don't bite :)
