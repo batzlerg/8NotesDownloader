@@ -1,11 +1,15 @@
-// this utility allows you to download a PDF of any 8Notes sheet music without a paid account
-// created by Graham Batzler
-// github.com/batzlerg
-
-// N.B. - please purchase a subscription to 8Notes to support their service,
-// this utility is only intended as a tool of convenience for the financially challenged among us
+/* this utility allows you to download a PDF of any 8Notes sheet music without a paid account
+*
+* created by Graham Batzler
+* github.com/batzlerg
+*
+* N.B. - if possible, please purchase a subscription to 8Notes to support their service,
+* this utility is only intended as a tool of convenience for the financially challenged among us
+*/
 
 (function () {
+
+  // add jsPdf dep and initialize the pdf document
   function initPdf() {
     return new Promise(function (resolve, reject) {
       let jsPdfEl = document.createElement('script');
@@ -19,6 +23,7 @@
     })
   }
 
+  // parse the image url of the current sheet of music
   function getScoreImgUrl(scoreEl) {
     let bkgImgUrl = scoreEl.style.backgroundImage; // url:("foobar")
     let pre = bkgImgUrl.indexOf("\(\""); // if only JS had a lookbehind regex operator
@@ -27,6 +32,7 @@
     return imgUrl;
   }
 
+  // draw the image url to a canvas element
   function drawToCanvas({ el, url }) {
     return new Promise(function (resolve, reject) {
       let canvas = document.createElement("canvas");
@@ -42,10 +48,13 @@
     })
   }
 
+  // convert the canvas to a dataUrl blob and draw it into the jsPdf document
   function addCanvasToPdf(canvas) {
     pdfDoc.addImage(canvas.toDataURL(), 'PNG', 0, 0, pdfDoc.internal.pageSize.getWidth(), pdfDoc.internal.pageSize.getHeight());
   }
 
+  // check if we're on the last page of the sheet music
+  // (since we're compiling the pdf manually from the individual free images)
   function checkIsLastPage() {
     let rightButton = document.querySelectorAll('#rightbut2')[0];
     if (rightButton && rightButton.style.visibility === 'hidden') { // buttons aren't displayed on sheet music with single pages
@@ -54,6 +63,7 @@
     return rightButton.style.background === "rgb(192, 192, 192)"; // greyed out
   }
 
+  // tie it all together. let's get to pdf-ing!
   async function main() {
     const pdfDoc = await initPdf();
 
