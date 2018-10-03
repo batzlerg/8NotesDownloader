@@ -20,6 +20,8 @@ To use this script from your browser's bookmarks:
 
 The images are scraped manually from the sheet music page and converted into [dataURLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) by first drawing them to a <canvas> element, then [jsPDF](https://github.com/MrRio/jsPDF) is used under the hood to generate the document.
 
+[Dan's Javascript Minifier](https://www.danstools.com/javascript-minify/) is used produce the minified bookmarklet.
+
 ## Disclaimer
 
 These PDFs aren't *quite* as good as what you'd get from a paid subscription. This script compiles a PDF from the freely available images whereas the subscription PDF is an editable document, so I encourage everybody to support the service by subscribing if possible!

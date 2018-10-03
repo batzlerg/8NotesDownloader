@@ -9,8 +9,12 @@
 
 (function () {
   // useful helper for setting inline styles within innerHTML
-  function formatInline(str) {
-    return str.replace(/\s+/g, ' ').trim();
+  function formatInlineStyle(obj) {
+    let str = '';
+    for (let rule in obj) {
+      str += `${rule}: ${obj[rule]}; `
+    }
+    return str.trim();
   }
 
   // add jsPdf dep and initialize the pdf document
@@ -22,7 +26,7 @@
       jsPdfEl.onload = () => resolve(new jsPDF());
       jsPdfEl.className = 'toCleanup';
       document.head.appendChild(jsPdfEl);
-    })
+    });
   }
 
   // parse the image url of the current sheet of music
@@ -49,7 +53,7 @@
         resolve(canvas);
       };
       base_image.src = url;
-    })
+    });
   }
 
   // convert the canvas to a dataUrl blob and draw it into the jsPdf document
@@ -80,21 +84,22 @@
     let loadingDiv = document.createElement('div');
     loadingDiv.className = ['loadingDiv', 'toCleanup'].join(' ');
     loadingDiv.textContent = 'generating your PDF, please wait...';
-    loadingDiv.style = `
-      z-index: 999999;
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 3em 0;
-      border: 1px solid black;
-      background-color: honeydew;
-      text-align: center;
-      font-size: 1.4em;`
+    loadingDiv.style = formatInlineStyle({
+      'z-index': '999999',
+      'width': '100%',
+      'position': 'fixed',
+      'top': '0',
+      'left': '0',
+      'display': 'flex',
+      'flex-direction': 'column',
+      'justify-content': 'center',
+      'align-items': 'center',
+      'padding': '3em 0',
+      'border': '1px solid black',
+      'background-color': 'honeydew',
+      'text-align': 'center',
+      'font-size': '1.4em'
+    });
     document.body.appendChild(loadingDiv);
   }
 
@@ -114,44 +119,47 @@
     const closeButton = document.createElement('button');
     closeButton.onclick = closeAndCleanup;
     closeButton.ariaLabel = 'close';
-    closeButton.style = `
-      position: absolute;
-      top: 1em;
-      right: 1em;
-      padding: .2em;
-      background-color: mintcream;
-      cursor: pointer`;
+    closeButton.style = formatInlineStyle({
+      'position': 'absolute',
+      'top': '1em',
+      'right': '1em',
+      'padding': '.2em',
+      'background-color': 'mintcream',
+      'cursor': 'pointer'
+    });
     const closeButtonInner = document.createElement('span');
     closeButtonInner.textContent = 'x';
-    closeButtonInner.style = `
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      top: -0.1em;
-      height: 1.4em;
-      width: 1.4em;
-      font-size: 2em;
-      color: silver`;
+    closeButtonInner.style = formatInlineStyle({
+      'display': 'inline-flex',
+      'justify-content': 'center',
+      'align-items': 'center',
+      'position': 'relative',
+      'top': '-0.1em',
+      'height': '1.4em',
+      'width': '1.4em',
+      'font-size': '2em',
+      'color': 'silver'
+    });
     closeButton.appendChild(closeButtonInner);
 
     const styles = {
-      mainLine: `
-        padding: .5em 0;
-        font-size: 1.2em;`,
-      title: `
-        padding: .2em;
-        text-decoration: underline;
-        font-weight: bold;
-      `,
+      mainLine: {
+        'padding': '.5em 0',
+        'font-size': '1.2em'
+      },
+      title: {
+        'padding': '.2em',
+        'text-decoration': 'underline',
+        'font-weight': 'bold'
+      }
     };
 
     const content = document.createElement('div');
     content.innerHTML = `
       thanks for waiting!
-      <div style="${formatInline(styles.mainLine)}">
+      <div style="${formatInlineStyle(styles.mainLine)}">
         your download of
-        <span style="${formatInline(styles.title)}">${formattedTitle}</span>
+        <span style="${formatInlineStyle(styles.title)}">${formattedTitle}</span>
         is beginning now.
       </div>
       to manually download the file, click here:
